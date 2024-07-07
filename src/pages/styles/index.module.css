@@ -1,0 +1,25 @@
+/* styles/index.module.css */
+.marquee {
+    display: flex; /* Ensure flex display to stretch the child element */
+    overflow: hidden;
+    width: 100%; /* Ensure it takes up full width */
+  }
+  
+  .marquee p {
+    animation: marquee 20s linear infinite;
+    white-space: nowrap; /* Prevent line breaks */
+    margin-right: -100%; /* Hide overflowing content */
+    padding: 8px; /* Adjust padding as needed */
+  }
+  
+  @keyframes marquee {
+    0% {
+        right: 0;
+      transform: translateX(100%);
+    }
+    100% {
+        right: 100%;
+      transform: translateX(-100%);
+    }
+  }
+  

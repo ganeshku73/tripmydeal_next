@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.custompackagedesign{
+  visibility: visible; animation-duration: 1.3s; animation-delay: 0.5s; animation-name: fadeIn;
+}
+
+.swiper-button-next:after, .swiper-rtl .swiper-button-prev:after, .swiper-button-prev:after, .swiper-rtl .swiper-button-next:after{
+  color: white;
+}
+
+.content {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.header {
+  font-size: 30px;
+}
+
+.img-body img {
+  display: flex;
+  margin:  auto;
+  height: 40vh;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.img-body {
+  width: 100%;
+  height: 500px;
+  aspect-ratio: 1/1;
+  outline-color: red;
+  display: inline-block;
+}
+
+.thumbnail-slider-wrap {
+  margin-top: 20px;
+}
+
+.thumbnail-item {
+  margin:0 5px;
+  cursor: pointer;
+  padding:0 5px;
+}
+
+.thumbnail-image {
+  width: 100%;
+  height: auto;
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.thumbnail-active {
+  border-color: #007bff;
+}
+
+.thumb-wrapper {
+  width: 100px;
+  aspect-ratio: 1/1;
+}
+
+.thumb-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.thumb-wrapper {
+  display: flex;
+  height:200px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.thumb-wrapper > div {
+  width: 100%;
+  max-height: 200px;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  transition: all 0.1s;
+}
+.thumb-wrapper > div:hover,
+.thumb-wrapper > div.active {
+ 
+
+}
+.thumb-wrapper > div img {
+  width: 100%;
+  height: 100%;
+  object-position: center 0;
+  object-fit: cover;
+}
+
+.slick-prev {
+  left: 47px !important;
+}
+
+.slick-next {
+  right: 47px !important;
+}
+
+
