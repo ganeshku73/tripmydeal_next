@@ -6,10 +6,10 @@
   }
   
   .marquee p {
-    animation: marquee 20s linear infinite;
     white-space: nowrap; /* Prevent line breaks */
     margin-right: -100%; /* Hide overflowing content */
     padding: 8px; /* Adjust padding as needed */
+    animation: marquee 20s linear infinite;
   }
   
   @keyframes marquee {
@@ -23,3 +23,4 @@
     }
   }
   
+

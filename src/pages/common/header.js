@@ -1,80 +1,105 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import styles from '../styles/index.module.css';
+import Marquee from './Marquee';
 function Header(){
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleMenu = () => setIsOpen(!isOpen);
+
     return(
         <>
-        <div className=" bg-orange-600 h-12 py-2 sm:py-3 text-white">
-            <div className="flex flex-wrap">
-                <div className="w-10/12">
-                    <i className="fa fa-facebook-square pl-12 sm:pl-20 py-1 sm:py-2"></i>
-                    <i className="fa fa-instagram px-4 sm:px-6  py-1 sm:py-2"></i>
-                    <span className="pr-3 sm:pr-5">  |  </span>
-                    <span className="pr-3 sm:pr-5"> +91 40-786756535 / 040-67888465337 /338 /339 340/  </span>
-                    <span className="pr-3 sm:pr-5">  |  </span>
-                    <span className="pr-3 sm:pr-5">  abcd123@gmail.com </span>
+        <div className="bg-orange-600 h-12 py-2 sm:py-3 text-white">
+            <div className="flex flex-wrap items-center justify-between px-4">
+                {/* Contact Info and Social Icons */}
+                <div className="flex items-center space-x-4 sm:space-x-6 flex-1">
+                    <i className="fa fa-facebook-square text-xl sm:text-2xl"></i>
+                    <i className="fa fa-instagram text-xl sm:text-2xl"></i>
+                    <span className="hidden md:inline">8794113218 | 7005116152</span>
+                    <span className="hidden md:inline"> | </span>
+                    <span className="hidden md:inline">sales@tripmydeal.com | admin@travel365online.com</span>
                 </div>
-                <div className="w-2/12">
-                    <i className="fa fa-bell text-right"></i>
-                    <i className="fa fa-chevron-down pl-1 sm:pl-2"></i>
-                    <span className="pl-2 sm:pl-3"> Hi, tripmydeal.in  <i className="fa fa-chevron-down pl-2 sm:pl-3"></i></span>
-                </div>
+
+                {/* User Info and Notifications */}
+                {/* <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
+                    <i className="fa fa-bell text-xl sm:text-2xl"></i>
+                    <i className="fa fa-chevron-down text-xl sm:text-2xl"></i>
+                    <span className="hidden sm:inline">Hi, tripmydeal.in</span>
+                    <i className="fa fa-chevron-down text-xl sm:text-2xl hidden sm:inline"></i>
+                </div> */}
             </div>
         </div>
         
-        <nav className="bg-white sticky top-0 z-50 px-20">
+        <nav className="bg-white sticky top-0 z-50 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
-                    <div className="flex items-center ">
+                    {/* Logo */}
+                    <div className="flex items-center">
                         <div className="flex-shrink-0">
                             <a href="/" className="text-black">
-                              <img src="/logo.png" className="w-20"/>
+                                <img src="/logo.png" className="w-20" alt="Logo"/>
                             </a>
                         </div>
                     </div>
-                    <div className="hidden md:block">
-                        <div className="ml-4 flex items-center space-x-8  text-xl">
-                            <a href="/home" className="text-black hover:bg-blue hover:text-black rounded-lg p-2">
-                                Home
-                            </a>
 
-                            <a href="/about" className="text-black hover:bg-primary hover:text-black rounded-lg p-2">
-                                About 
-                            </a>
-                            
-                            <a href="/hotels" className="text-black hover:bg-white hover:text-black rounded-lg p-2">
-                                Hotels
-                            </a>
-
-                            <a href="/gallery" className="text-black hover:bg-white hover:text-black rounded-lg p-2">
-                                Gallery
-                            </a>
-
-                            <a href="/blog" className="text-black hover:bg-white hover:text-black rounded-lg p-2">
-                                Blog
-                            </a>
-
-                            <a href="/contact" className="text-black hover:bg-white hover:text-black rounded-lg p-2">
-                                Contact
-                            </a>
-                        </div>
+                    {/* Desktop Navigation */}
+                    <div className="hidden md:flex md:items-center md:space-x-8 text-xl">
+                        <a href="/" className="text-black hover:bg-blue-500 hover:text-white rounded-lg p-2">
+                            Home
+                        </a>
+                        <a href="/about" className="text-black hover:bg-blue-500 hover:text-white rounded-lg p-2">
+                            About
+                        </a>
+                        <a href="/hotels" className="text-black hover:bg-blue-500 hover:text-white rounded-lg p-2">
+                            Hotels
+                        </a>
+                        <a href="/packages" className="text-black hover:bg-blue-500 hover:text-white rounded-lg p-2">
+                            Packages
+                        </a>
+                        <a href="/contact" className="text-black hover:bg-blue-500 hover:text-white rounded-lg p-2">
+                            Contact
+                        </a>
                     </div>
+
+                    {/* Mobile Menu Button */}
+                    <div className="md:hidden">
+                        <button
+                            onClick={toggleMenu}
+                            className="text-black focus:outline-none"
+                        >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Mobile Menu */}
+            <div className={`md:hidden ${isOpen ? 'block' : 'hidden'}`}>
+                <div className="flex flex-col items-center space-y-4 text-xl bg-white p-4">
+                    <a href="/" className="text-black hover:bg-orange-600 hover:text-white rounded-lg p-2">
+                        Home
+                    </a>
+                    <a href="/about" className="text-black hover:bg-orange-600 hover:text-white rounded-lg p-2">
+                        About
+                    </a>
+                    <a href="/hotels" className="text-black hover:bg-orange-600 hover:text-white rounded-lg p-2">
+                        Hotels
+                    </a>
+                    <a href="/packages" className="text-black hover:bg-orange-600 hover:text-white rounded-lg p-2">
+                        Packages
+                    </a>
+                    
+                    <a href="/contact" className="text-black hover:bg-orange-600 hover:text-white rounded-lg p-2">
+                        Contact
+                    </a>
                 </div>
             </div>
         </nav>
 
-        <div className=" bg-black text-white h-10 py-1 sm:py-2 ">
-            <div className="flex flex-wrap">
-                <marquee className=" scroll-m-5 ">
-                    <span>Uttarakhand Package  - (5N/6D) Adventure & Skiing Package <button className="  bg-orange-600 mx-2 sm:mx-3  text-white px-2 rounded-md">Book Now</button></span>
-                    <span className="pl-6 sm:pl-9">Best Gujrat Family Tour - (5N/6D) <button className="  bg-orange-600 mx-2 sm:mx-3  text-white px-2 rounded-md">Book Now</button></span>
-                    <span  className="pl-6 sm:pl-9">Odisha & Deoghar Package <button className=" bg-orange-600 mx-2 sm:mx-3  text-white px-2 rounded-md">Book Now</button></span>
-                    <span  className="pl-6 sm:pl-9">Assam Tour Package - (5D/6N) <button className=" bg-orange-600 mx-2 sm:mx-3  text-white px-2 rounded-md">Book Now</button></span>
-                    <span  className="pl-6 sm:pl-9">Leh & Ladakh Package - (6D/7N) <button className=" bg-orange-600 mx-2 sm:mx-3  text-white px-2 rounded-md">Book Now</button></span>
-                    <span  className="pl-6 sm:pl-9">Shimla Manali Package - (6D/7N) <button className="  bg-orange-600 mx-2 sm:mx-3  text-white px-2 rounded-md">Book Now</button></span>
-                </marquee>
+        <Marquee />
 
-            </div>
-        </div>
         
      
 

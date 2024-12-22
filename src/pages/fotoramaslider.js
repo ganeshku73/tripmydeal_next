@@ -20,7 +20,7 @@ const FotoramaSlider = ({ images }) => {
 
   return (
     <div ref={fotoramaRef} className="fotorama">
-      {images.map((image, index) => (
+      {Array.isArray(images) && images.map((image, index) => (
         <img key={index} src={image} alt={`Slide ${index + 1}`} />
       ))}
     </div>

@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import API_BASE_URL from '@/config';
 
-const SliderWithThumbnails = ({ images,page }) => {
+const ItenerySlider = ({ images,page }) => {
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
 
@@ -43,7 +43,7 @@ const SliderWithThumbnails = ({ images,page }) => {
         {Array.isArray(images) && images.map((image, index) => (
           <div key={index}>
              <div className="img-body ">
-                <img src={`${API_BASE_URL}/${page}/${image}`} alt={`Slide ${index}`}  />
+                <img src={image} alt={`Slide ${index}`}  />
             </div>
           </div>
         ))}
@@ -54,7 +54,7 @@ const SliderWithThumbnails = ({ images,page }) => {
           {Array.isArray(images) && images.map((image, index) => (
             <div key={index} className="thumbnail-item">
               <img
-                src={`${API_BASE_URL}/${page}/${image}`}
+                src={image}
                 alt={`Thumbnail ${index}`}
                 className={classNames('thumbnail-image', {
                   'thumbnail-active': nav2 && index === nav2.current?.slickCurrentSlide,
@@ -69,4 +69,4 @@ const SliderWithThumbnails = ({ images,page }) => {
   );
 };
 
-export default SliderWithThumbnails;
+export default ItenerySlider;

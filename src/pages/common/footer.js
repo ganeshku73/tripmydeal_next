@@ -42,8 +42,9 @@ function Footer(){
                         </div>
                         <div>
                             <h2 className="text-2xl font bold pb-2 sm:pb-3">Contact Us</h2>
-                            <div><i className="fa fa-map-marker "></i> E-103, Ave Orego, Vatsal Valley, India</div>
-                            <div>+9899888899</div>
+                            <div><i className="fa fa-map-marker "></i>1st Floor, Math Choumuhuni, Near Iskcon Tample
+                            Agartala, West | Tripura  - 799001 India</div>
+                            <div>8794113218 | 7005116152</div>
                             
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 module.exports = {
     reactStrictMode: true,
+    distDir: 'build',
     // Add other configurations here
     webpack: (config, { isServer }) => {
       // Asset Modules Configuration
