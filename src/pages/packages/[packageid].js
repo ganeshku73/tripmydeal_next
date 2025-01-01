@@ -15,6 +15,7 @@ import FAQTab from "./FAQTab";
 import InclusionTab from "./InclusionTab";
 import ItenerySlider from '../common/ItenerySlider';
 
+
 function PackageDetaile() {
     const router = useRouter();
     const [packageData, setPackageData] = useState([]);
@@ -25,9 +26,83 @@ function PackageDetaile() {
     const [faqs, setFaqs] = useState([]);
     const [packageGallery, setPackageGallery] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+   
+    const [activeTab, setActiveTab] = useState('itinerary'); // Default to itinerary tab
+    const [isClient, setIsClient] = useState(false);
+
+  
+
+  // Use useEffect to ensure this runs on the client side only
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
     const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
-    const [activeTab, setActiveTab] = useState('itinerary'); // Default to itinerary tab
+
+    
+
+    var token = '';
+    if (typeof localStorage !== "undefined") {
+        token = localStorage.getItem('username');
+    } else {
+        token = '';
+    }
+    //console.log(`package data id query:${router.query}`);
+    useEffect(() => {
+        var { packageid } = router.query;
+        //alert(package_id)
+        console.log(`package data id: ${packageid}`);
+        if (packageid) {
+            const fetchPackage = async () => {
+
+                if (packageid != undefined) {
+                    const response = await fetch(`${API_BASE_URL}/package/package-list/${packageid}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        },
+                    });
+    
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch package data');
+                    } else {
+                        const data = await response.json();
+                        setPackageData(data.result); // Set hotel data
+                        
+    
+                        if (data.result.intenery) {
+                            const inteneryData = JSON.parse(data.result.intenery);
+                            const iteneryGallery = inteneryData.filter(item => item.image).map(item => item.image);
+                            setPackageGallery(iteneryGallery);
+                            setItenery(inteneryData);
+                        }
+    
+                        if (data.result.include) {
+                            var inclusionData = await JSON.parse(data.result.include);
+                            setInclusions(inclusionData||[]);
+                        }
+                        if (data.result.exclude) {
+                            var excludeData =await JSON.parse(data.result.exclude);
+                            setExclusions(excludeData||[]);
+                        }
+                        if (data.result.faq) {
+                            var faqData =await JSON.parse(data.result.faq);
+                            setFaqs(faqData ||[]);
+                        }
+                        setRelatedPackage(data.relatedPackages || []); // Set rooms data
+    
+                        //console.log(`rooms ${data.rooms}`);
+                    }
+    
+    
+                }
+    
+            }
+    
+            fetchPackage();
+        }
+    }, [router.query]);
+
     const renderTabContent = () => {
         switch (activeTab) {
             case 'itinerary':
@@ -43,66 +118,10 @@ function PackageDetaile() {
         }
     };
 
-    var token = '';
-    if (typeof localStorage !== "undefined") {
-        token = localStorage.getItem('username');
-    } else {
-        token = '';
+
+    if (!isClient) {
+        return <div>Loading...</div>;
     }
-    //console.log(`package data id query:${router.query}`);
-    useEffect(() => {
-        var { packageid } = router.query;
-        //alert(package_id)
-        console.log(`package data id: ${packageid}`);
-
-        const fetchPackage = async () => {
-
-            if (packageid != undefined) {
-                const response = await fetch(`${API_BASE_URL}/package/package-list/${packageid}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch package data');
-                } else {
-                    const data = await response.json();
-                    setPackageData(data.result); // Set hotel data
-                    
-
-                    if (data.result.intenery) {
-                        const inteneryData = JSON.parse(data.result.intenery);
-                        const iteneryGallery = inteneryData.filter(item => item.image).map(item => item.image);
-                        setPackageGallery(iteneryGallery);
-                        setItenery(inteneryData);
-                    }
-
-                    if (data.result.include) {
-                        var inclusionData = await JSON.parse(data.result.include);
-                        setInclusions(inclusionData||[]);
-                    }
-                    if (data.result.exclude) {
-                        var excludeData =await JSON.parse(data.result.exclude);
-                        setExclusions(excludeData||[]);
-                    }
-                    if (data.result.faq) {
-                        var faqData =await JSON.parse(data.result.faq);
-                        setFaqs(faqData ||[]);
-                    }
-                    setRelatedPackage(data.relatedPackages || []); // Set rooms data
-
-                    //console.log(`rooms ${data.rooms}`);
-                }
-
-
-            }
-
-        }
-
-        fetchPackage();
-        console.log(`Package galler: ${packageGallery}`);
-    }, [router.query]);
 
     const renderSlider = packageGallery && packageGallery.length > 0;
     //console.log('package gallery'+packageGallery);
@@ -110,6 +129,7 @@ function PackageDetaile() {
         <>
 
             <Header />
+            
             <div className="container sm:mx-auto mt-12 sm:mt-16 minheight sm:px-6 lg:px-8">
                 <div className="flex flex-wrap justify-center p-2">
                     <div className="grid grid-cols-12 gap-8">
@@ -211,9 +231,10 @@ function PackageDetaile() {
                             </div>
                             <div className="flex flex-wrap">
                                 <div className=""></div>
-                                <div className="text-sm"><span className="font-bold text-lg text-gray-800">Cancellation/Amendment Policy</span><br></br>
+                                <div className="text-sm">
+                                    <span className="font-bold text-lg text-gray-800">Cancellation/Amendment Policy</span><br></br>
                                 
-                                 <p><div dangerouslySetInnerHTML={{ __html: packageData.cancellation_policy }} /></p>
+                                 <p><div dangerouslySetInnerHTML={{ __html: packageData.cancellation_policy }} ></div></p>
                                 </div>
                             </div>
                             <hr className="border-t-1 border-gray-500 my-8 sm:my-12" />

@@ -1,9 +1,8 @@
 // components/BannerSlider.js
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper/modules';
 import SwiperCore from 'swiper';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
@@ -37,28 +36,29 @@ const BannerSlider = () => {
     
   return (
 
-    
-    <Swiper
-    modules={[Navigation, Pagination, Scrollbar, A11y]}
-    spaceBetween={0}
-    slidesPerView={1}
-    navigation
-    pagination={{ clickable: true }}
-    scrollbar={{ draggable: true }}
-    onSwiper={(swiper) => console.log(swiper)}
-    onSlideChange={() => console.log('slide change')}
-  >
+    <Fragment>
+      <Swiper
+            modules={[Navigation, Pagination, Scrollbar, A11y]}
+            spaceBetween={0}
+            slidesPerView={1}
+            navigation
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true }}
+            onSwiper={(swiper) => console.log(swiper)}
+            onSlideChange={() => console.log('slide change')}
+          >
           {slides.map(slide => (
-             <SwiperSlide>
+            <SwiperSlide>
             <img
               src={slide.imageUrl}
               alt={slide.altText}
               className="w-full object-cover"
             />
-             </SwiperSlide>
+            </SwiperSlide>
           ))}
-           </Swiper>
-      
+    </Swiper>
+   
+    </Fragment>
   );
 };
 

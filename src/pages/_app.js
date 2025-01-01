@@ -1,12 +1,10 @@
 import 'tailwindcss/tailwind.css';
-import { Inter } from "next/font/google";  // Import Inter font with Latin subset
+import { Inter } from "next/font/google";
 import '../../public/swiper-bundle.min.css';
 import "./globals.css";
-import axios from "axios";
-import { useEffect } from 'react';
-import API_BASE_URL from '@/config';
-//alert(API_BASE_URL)
-//Ensure correct import and usage of Inter font with Latin subset
+import { useAuth } from '@/utils/useAuth';
+import { useRouter } from 'next/router';
+
 const inter = "'Inter', sans-serif";  // This assumes Inter is already imported correctly
 
 export const metadata = {
@@ -15,28 +13,19 @@ export const metadata = {
 };
 
 function MyApp({ Component, pageProps }) {
+  const { loading, token } = useAuth();  // Get loading and token status
+  const router = useRouter();
 
-  useEffect(() => {
-    const initializeToken = async () => {
-      if (typeof window !== "undefined") {
-        const token = localStorage.getItem('username');
-        if (!token) {
-          try {
-            const response = await axios.post(`${API_BASE_URL}/auth/login`, {
-              username: 'ganeshku',
-              password: '123457'
-            });
-            const tokenAccess = response.data.access_token;
-            localStorage.setItem('username', tokenAccess);
-          } catch (error) {
-            console.error('Error fetching token:', error);
-          }
-        }
-      }
-    };
+  // If the token is still loading or unavailable, show a loading spinner or screen
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-    initializeToken();
-  }, []);  // Run only once on component mount
+  // Render the app only if the user has the token
+  if (!token) {
+    router.push('/login');  // Redirect if no token is available
+    return null;
+  }
 
   return <Component {...pageProps} />;
 }

@@ -6,17 +6,19 @@ import { useState, useEffect } from "react";
 import API_BASE_URL from "@/config";
 import PriceRangeSlider from "@/components/filter/PriceRangeSlider";
 import StarPattern from "@/components/filter/ReviewScore";
-
+import PackageSearch from "@/components/packages/PackageSearch";
+import { useRouter } from "next/router";
 
 function Package() {
     const [filters, setFilters] = useState({
         maxPrice: 0,
         minPrice: 0,
         starRating: []
-      });
-
+    });
+    
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(0);
+    const [search, setSearch] = useState(undefined);
     //const [selectedStars, setSelectedStars] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -26,7 +28,8 @@ function Package() {
     const [popupVisible, setPopupVisible] = useState(false);
     const [apiUrl, setApiUrl] = useState(`${API_BASE_URL}/package/package-list`);
    
-
+    
+    
     // Function to update filters
     const handlePrev = () => {
         setCurrentPage((prevPage) => prevPage - 1);
@@ -41,7 +44,7 @@ function Package() {
             starRating: selectedStars
         }));
     }
-
+    
     // Function to handle price range updates
     const handleRangeChange = (min, max) => {
         setFilters(prevFilters => ({
@@ -50,10 +53,22 @@ function Package() {
         maxPrice: max
         }));
     };
+    const router = useRouter();
+    
+    useEffect(()=>{
+        const { destination } = router.query;
+        if(destination !== undefined){
+            setSearch(destination)
+        }
+    },[router])
 
     useEffect(() => {
         let url = `${API_BASE_URL}/package/package-list`;
         let queryParams = [];
+        
+        
+        queryParams.push(`destination=${search}`);
+
         queryParams.push(`page=${currentPage}`);
        
         queryParams.push(`minPrice=${filters.minPrice}`);
@@ -63,11 +78,13 @@ function Package() {
         if (sorting) {
             queryParams.push(`sort_by=${sorting}`);
         }
+        
         if (queryParams.length > 0) {
             url += "?" + queryParams.join("&");
         }
+        
         setApiUrl(url); // Update apiUrl state
-    }, [sorting, filters, currentPage]);
+    }, [sorting, filters, currentPage,search]);
 
     const handleSorting = async (event) => {
         setSorting(event.target.value);
@@ -79,18 +96,12 @@ function Package() {
         }
     }, [apiUrl]);
 
-    
-
-
-
-
     var token = '';
     if (typeof localStorage !== "undefined") {
         token = localStorage.getItem('username');
     } else {
         token = '';
     }
-
 
     const fetchPackagesData = async () => {
         {
@@ -103,10 +114,8 @@ function Package() {
                     if (response.data.status != 0) {
                         let minPriceFind = Math.min(...response.data.result.map(p => p.price));
                         let maxPriceFind = Math.max(...response.data.result.map(p => p.price));
-                        
                         setMinPrice(parseInt(minPriceFind));
                         setMaxPrice(parseInt(maxPriceFind));
-                        
                         setPackageData(response.data.result);
                         setResultCount(response.data.resultCount);
                         setTotalPages(response.data.totalPages);
@@ -139,7 +148,7 @@ function Package() {
         <>
             <Header />
             <BannerSlider />
-
+            <PackageSearch/>
 
             {popupVisible && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
